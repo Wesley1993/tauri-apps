@@ -11,10 +11,9 @@ export default function useLocale() {
     }
 
     i18.locale.value = value;
-
-    return {
-      currentLocale,
-      changeLocale
-    }
+  }
+  return {
+    currentLocale,
+    changeLocale
   }
 }
