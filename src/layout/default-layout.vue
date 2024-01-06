@@ -1,6 +1,8 @@
 <template>
   <a-layout class="layout">
-    <a-layout-sider style="width: 80px;">侧边</a-layout-sider>
+    <a-layout-sider style="width: 80px;">
+      <PageSider />
+    </a-layout-sider>
     <a-layout>
       <a-layout-header>
         <PageHeader />
@@ -15,6 +17,7 @@
 <script setup lang="ts">
 import PageLayout from './page-layout.vue';
 import PageHeader from './page-header.vue';
+import PageSider from './page-sider.vue';
 </script>
 
 <style scoped lang="less">
