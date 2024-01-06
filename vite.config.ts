@@ -1,10 +1,14 @@
+import { vitePluginForArco } from '@arco-plugins/vite-vue';
 import {resolve} from "path"
-import {defineConfig} from "vite"
+import { defineConfig } from "vite"
 import vue from "@vitejs/plugin-vue"
 import vueJsx from "@vitejs/plugin-vue-jsx"
 import svgLoader from "vite-svg-loader"
 import Unocss from "unocss/vite"
-import configArcoStyleImportPlugin from "./plugin/arcoStyleImport"
+import configArcoStyleImportPlugin from "./config/plugin/arcoStyleImport"
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { ArcoResolver } from 'unplugin-vue-components/resolvers'
 
 // https://vitejs.dev/config/
 export default defineConfig(async () => ({
@@ -12,8 +16,18 @@ export default defineConfig(async () => ({
     vue(),
     vueJsx(),
     svgLoader({svgoConfig: {}}),
-    configArcoStyleImportPlugin(),
-    Unocss({configFile: "../uno.config.ts"}),
+    AutoImport({
+      resolvers: [ArcoResolver()]
+    }),
+    Components({
+      resolvers: [ArcoResolver({
+        sideEffect: true
+      })]
+    }),
+    vitePluginForArco({
+      style: "css"
+    }),
+    Unocss({configFile: "uno.config.ts"}),
   ],
   resolve: {
     alias: [
@@ -31,7 +45,7 @@ export default defineConfig(async () => ({
       },
       {
         find: "vue",
-        replacement: 'vue/dist/vue.esm-bundler.js', // compile template
+        replacement: "vue/dist/vue.esm-bundler.js", // compile template
       },
     ],
   },
@@ -48,4 +62,12 @@ export default defineConfig(async () => ({
   // 3. to make use of `TAURI_DEBUG` and other env variables
   // https://tauri.app/v1/api/config#buildconfig.beforedevcommand
   envPrefix: ["VITE_", "TAURI_"],
+  build: {
+    // Tauri supports es2021 but not all plugins do
+    target: process.env.TAURI_PLATFORM == "windows" ? "chrome105" : "safari13",
+    // don't minify for debug builds
+    minify: !process.env.TAURI_DEBUG ? "esbuild" : false,
+    // produce sourcemaps for debug builds
+    sourcemap: !!process.env.TAURI_DEBUG,
+  },
 }))

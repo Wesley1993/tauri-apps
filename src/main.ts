@@ -5,6 +5,8 @@ import router from './router';
 import store from './store';
 import i18n from './locale';
 import App from "./App.vue";
+// main.ts
+import 'virtual:uno.css'
 
 const app = createApp(App);
 
