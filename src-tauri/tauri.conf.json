@@ -38,12 +38,15 @@
     },
     "windows": [
       {
+        "label": "main",
         "fullscreen": false,
         "resizable": true,
         "title": "tauri-apps",
         "minWidth": 800,
         "minHeight": 600,
-        "decorations": false
+        "decorations": true,
+        "titleBarStyle": "Overlay",
+        "hiddenTitle": true
       }
     ]
   }

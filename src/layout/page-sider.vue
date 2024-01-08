@@ -1,49 +1,21 @@
 <template>
-  <div>
-    <div class="flex items-center" v-if="platformName === OsEnum.MacOs" :class="{isFocus: !isFocus}">
-      <div class="w-10px h-10px border-rd-5px bg-[rgb(252,70,51)]" :class="{ grey: !isFocus}">
-
-      </div>
-      <div class="w-10px h-10px border-rd-5px bg-[rgb(253,175,37)]" :class="{ grey: !isFocus}">
-
-      </div>
-      <div class="w-10px h-10px border-rd-5px bg-[rgb(42,197,52)]" :class="{ grey: !isFocus}">
-
-      </div>
+  <div class="relative bg-[#f6f7f8] h-full pt-70px box-border flex flex-col justify-between">
+    <div class="absolute top-30px left-20px w-30px h-30px cursor-pointer bg-[#e4e5e6] border-rd-5px flex justify-center items-center">
+      <icon-left :size="20" />
     </div>
-    侧边
+    <div class="sider-top">top</div>
+    <div class="slide-bottom">bottom</div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { listen } from '@tauri-apps/api/event';
-import { type } from '@tauri-apps/api/os';
+// import { useAppStore } from '@/store/modules/app/index';
 import { onMounted, ref } from 'vue';
 import { OsEnum } from "../enum";
 const platformName = ref('')
 const isFocus = ref(false)
-const getPlatformName = async () => {
-  platformName.value = await type();
-}
-getPlatformName()
+// const appStore = useAppStore()
 
-const windowBlur = async () => {
-  await listen('tauri://blur',(event) => {
-    console.log('窗口失焦了', event)
-    isFocus.value = false
-  })
-}
-const winFocus = async () => {
-  await listen('tauri://focus',(event) => {
-    console.log('窗口获取焦点了', event)
-    isFocus.value = true
-  })
-}
-
-onMounted(()=>{
-  windowBlur()
-  winFocus()
-})
 
 </script>
 
@@ -52,6 +24,7 @@ onMounted(()=>{
     filter: grayscale(1);
   }
   .grey {
-    background-color: rgb(230, 230, 230)
+    background-color: #e1e1e1;
+    border: 1px solid #dbdbdb;
   }
 </style>

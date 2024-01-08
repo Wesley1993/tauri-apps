@@ -5,6 +5,7 @@ import router from './router';
 import store from './store';
 import i18n from './locale';
 import App from "./App.vue";
+import './assets/style/global.less';
 // main.ts
 import 'virtual:uno.css'
 
